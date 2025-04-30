@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,8 +19,38 @@
 <body>
   <h1>حاسبة التحاليل الشاملة الهرمونية والاستقلابية والمناعية</h1>
 
-  <!-- [Same Inputs as before] -->
-  <!-- INPUT FIELDS OMITTED FOR BREVITY -->
+  <label for="tsh">TSH (mIU/L):</label>
+  <input type="number" step="any" id="tsh">
+
+  <label for="ft4">Free T4 (ng/dL):</label>
+  <input type="number" step="any" id="ft4">
+
+  <label for="hba1c">HbA1c (%):</label>
+  <input type="number" step="any" id="hba1c">
+
+  <label for="ferritin">Ferritin (ng/mL):</label>
+  <input type="number" step="any" id="ferritin">
+
+  <label for="vitd">Vitamin D (ng/mL):</label>
+  <input type="number" step="any" id="vitd">
+
+  <label for="tpo">Anti-TPO (IU/mL):</label>
+  <input type="number" step="any" id="tpo">
+
+  <label for="acth">ACTH (pg/mL):</label>
+  <input type="number" step="any" id="acth">
+
+  <label for="homa">HOMA-IR:</label>
+  <input type="number" step="any" id="homa">
+
+  <label for="dhea">DHEA-S (µg/dL):</label>
+  <input type="number" step="any" id="dhea">
+
+  <label for="prolactin">Prolactin (ng/mL):</label>
+  <input type="number" step="any" id="prolactin">
+
+  <label for="amh">AMH (ng/mL):</label>
+  <input type="number" step="any" id="amh">
 
   <button onclick="calculateResults()">احسب النتائج</button>
   <button onclick="saveAsPDF()">احفظ النتائج كـ PDF</button>
@@ -31,7 +60,82 @@
 
   <script>
     function calculateResults() {
-      // ... [Same code for calculations] ...
+      const tsh = parseFloat(document.getElementById('tsh').value);
+      const ft4 = parseFloat(document.getElementById('ft4').value);
+      const hba1c = parseFloat(document.getElementById('hba1c').value);
+      const ferritin = parseFloat(document.getElementById('ferritin').value);
+      const vitd = parseFloat(document.getElementById('vitd').value);
+      const tpo = parseFloat(document.getElementById('tpo').value);
+      const acth = parseFloat(document.getElementById('acth').value);
+      const homa = parseFloat(document.getElementById('homa').value);
+      const dhea = parseFloat(document.getElementById('dhea').value);
+      const prolactin = parseFloat(document.getElementById('prolactin').value);
+      const amh = parseFloat(document.getElementById('amh').value);
+
+      let output = "<div class='result'><h3>النتائج:</h3>";
+
+      if (!isNaN(tsh)) {
+        if (tsh < 0.4) output += `<p class='abnormal'>TSH منخفض → احتمال فرط نشاط درقي.</p>`;
+        else if (tsh > 4.0) output += `<p class='abnormal'>TSH مرتفع → احتمال قصور درقي.</p>`;
+        else output += `<p class='normal'>TSH طبيعي ✅</p>`;
+      }
+
+      if (!isNaN(ft4)) {
+        if (ft4 < 0.8) output += `<p class='abnormal'>Free T4 منخفض → قصور درقي محتمل.</p>`;
+        else if (ft4 > 1.8) output += `<p class='abnormal'>Free T4 مرتفع → فرط نشاط درقي محتمل.</p>`;
+        else output += `<p class='normal'>Free T4 طبيعي ✅</p>`;
+      }
+
+      if (!isNaN(hba1c)) {
+        if (hba1c < 5.7) output += `<p class='normal'>HbA1c طبيعي ✅</p>`;
+        else if (hba1c < 6.5) output += `<p class='abnormal'>HbA1c مرحلة ما قبل السكري ⚠️</p>`;
+        else output += `<p class='abnormal'>HbA1c مرتفع → سكري مؤكد.</p>`;
+      }
+
+      if (!isNaN(ferritin)) {
+        if (ferritin < 20) output += `<p class='abnormal'>Ferritin منخفض → نقص حديد.</p>`;
+        else output += `<p class='normal'>Ferritin طبيعي ✅</p>`;
+      }
+
+      if (!isNaN(vitd)) {
+        if (vitd < 30) output += `<p class='abnormal'>Vitamin D منخفض → يحتاج دعم.</p>`;
+        else output += `<p class='normal'>Vitamin D طبيعي ✅</p>`;
+      }
+
+      if (!isNaN(tpo)) {
+        if (tpo > 34) output += `<p class='abnormal'>Anti-TPO مرتفع → احتمال التهاب مناعي (هاشيموتو).</p>`;
+        else output += `<p class='normal'>Anti-TPO طبيعي ✅</p>`;
+      }
+
+      if (!isNaN(acth)) {
+        if (acth > 60) output += `<p class='abnormal'>ACTH مرتفع → فرط نشاط كظري محتمل.</p>`;
+        else if (acth < 10) output += `<p class='abnormal'>ACTH منخفض → قصور كظري محتمل.</p>`;
+        else output += `<p class='normal'>ACTH طبيعي ✅</p>`;
+      }
+
+      if (!isNaN(homa)) {
+        if (homa >= 2) output += `<p class='abnormal'>HOMA-IR مرتفع → مقاومة إنسولين.</p>`;
+        else output += `<p class='normal'>HOMA-IR طبيعي ✅</p>`;
+      }
+
+      if (!isNaN(dhea)) {
+        if (dhea > 350) output += `<p class='abnormal'>DHEA-S مرتفع → يشير لاحتمال PCOS أو فرط أندروجين.</p>`;
+        else output += `<p class='normal'>DHEA-S طبيعي ✅</p>`;
+      }
+
+      if (!isNaN(prolactin)) {
+        if (prolactin > 23) output += `<p class='abnormal'>Prolactin مرتفع → فرط هرمون الحليب.</p>`;
+        else output += `<p class='normal'>Prolactin طبيعي ✅</p>`;
+      }
+
+      if (!isNaN(amh)) {
+        if (amh > 5) output += `<p class='abnormal'>AMH مرتفع → يشير لاحتمال PCOS.</p>`;
+        else if (amh < 1) output += `<p class='abnormal'>AMH منخفض → ضعف احتياطي المبيض.</p>`;
+        else output += `<p class='normal'>AMH طبيعي ✅</p>`;
+      }
+
+      output += "</div>";
+      document.getElementById('results').innerHTML = output;
     }
 
     function saveAsPDF() {
